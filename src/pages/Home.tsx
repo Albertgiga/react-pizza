@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from "../redux/slices/filterSlice";
 import Categories from "../components/Categories";
 import Sort, { list } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
@@ -13,8 +7,11 @@ import { Pagination } from "../components/Pagination";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import qs from "qs";
-import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import { useAppDispatch } from "../redux/store";
+import { selectPizzaData } from "../redux/pizza/selectors";
+import { selectFilter } from "../redux/filter/selectors";
+import { setCategoryId, setCurrentPage } from "../redux/filter/slice";
+import { fetchPizzas } from "../redux/pizza/asyncActions";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -26,9 +23,9 @@ export const Home: React.FC = () => {
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
 
-  const onChangeCategry = (id: number) => {
+  const onChangeCategry = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -98,7 +95,7 @@ export const Home: React.FC = () => {
 
   //Отображение данних с items
   const pizzas = items.map((obj: any) => (
-      <PizzaBlock {...obj} />
+      <PizzaBlock key={obj.id} {...obj} />
   ));
 
   const skeletons = [...new Array(4)].map((_, index) => (
@@ -109,7 +106,7 @@ export const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategry={onChangeCategry} />
-        <Sort />
+        <Sort value={sort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
