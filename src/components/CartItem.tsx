@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/cart/slice";
-import { CartItem } from "../redux/cart/types";
+import { CartItem as CartItemType } from "../redux/cart/types";
 
 
 type CartItemProps = {
@@ -14,7 +14,7 @@ type CartItemProps = {
   imageUrl: string;
 };
 
-export const CartItemBlock: React.FC<CartItemProps> = ({
+export const CartItem: React.FC<CartItemProps> = ({
   id,
   title,
   size,
@@ -29,7 +29,7 @@ export const CartItemBlock: React.FC<CartItemProps> = ({
     dispatch(
       addItem({
         id,
-      } as CartItem)
+      } as CartItemType)
     );
   };
 

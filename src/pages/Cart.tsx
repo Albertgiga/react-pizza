@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { CartItemBlock } from "../components/CartItem";
-import { CartEmpty } from "../components/CartEmpty";
+// import CartItemBlock from "../components/CartItem";
+// import CartEmpty from "../components/CartEmpty";
+import {CartItem, CartEmpty} from '../components'
 import { selectCart } from "../redux/cart/selectors";
 import { clearItems } from "../redux/cart/slice";
 
@@ -101,7 +102,7 @@ const Cart: React.FC = () => {
       </div>
       <div className="content__items">
         {items.map((item: any) => (
-          <CartItemBlock key={item.id} {...item} />
+          <CartItem key={item.id} {...item} />
         ))}
       </div>
       <div className="cart__bottom">
